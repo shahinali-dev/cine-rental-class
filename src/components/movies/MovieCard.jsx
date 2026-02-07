@@ -1,16 +1,31 @@
+import { useState } from "react";
 import tag from "../../assets/tag.svg";
 import { getMovieUrl } from "../../utils/movie-utils";
+import MovieDetailsModal from "./MovieDetailsModal";
 import Rating from "./Rating";
 
 export default function MovieCard({ movie }) {
-  // accha eita amader movie card component eikhane amra ekta ekta kore movie pai amara eikhane movie ar image show koranor jonno getMovieUrl utility function k use kore seikhane movie data te thaka name ta k kebol pass korechi
+  // akhn amra eto tuku change k commit korbo git a
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const addToCart = () => {
+    console.log("add to cart");
+  };
   return (
     <>
+      {isModalOpen && (
+        <MovieDetailsModal
+          movie={movie}
+          onClose={() => setIsModalOpen(false)}
+          onAddtoCart={addToCart}
+        />
+      )}
       <figure
         key={movie.id}
         className="p-4 border border-black/10 shadow-sm dark:border-white/10 rounded-xl"
       >
-        <a href="#">
+        <a href="#" onClick={() => setIsModalOpen(true)}>
           <img
             className="w-full object-cover"
             src={getMovieUrl(movie.cover)}
