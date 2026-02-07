@@ -1,23 +1,49 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { toast } from "react-hot-toast";
 import tag from "../../assets/tag.svg";
+import { MovieContext } from "../../context";
 import { getMovieUrl } from "../../utils/movie-utils";
 import MovieDetailsModal from "./MovieDetailsModal";
 import Rating from "./Rating";
 
 export default function MovieCard({ movie }) {
-  // akhn amra eto tuku change k commit korbo git a
-
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
-  const addToCart = () => {
-    console.log("add to cart");
+  //scrn dekha jai?? ok then amra prothome event propagation issue ta fix kore asi
+  // accha akhn dekhen add to cart a add korle kintu r modal open hocchena tai na? hello r u available? ami kintu click kortechi but kono modal ki open hocchilo? ok but amader ekta bug create hoyeche code a, mone ache amra seelctedMovie nam a ekta state nite giyechilam? actually eikhane ki hocche movie card a single movie aslew seita to map hocche bar bar tai na? so amader k eikhane selectedMovie state ta nite hobe
+
+  const { cartData, setCartData } = useContext(MovieContext);
+
+  console.log("cartData", cartData);
+  //toast gulo ki dekha jai? eita configuration bujhte perechen? ok akhn amra ei cart data k cart icon a click korle jeno dekha jai seita ensure korbo
+  const addToCart = (e, movie) => {
+    e.stopPropagation();
+    const isMovieExists = cartData.find((item) => item.id === movie.id);
+    if (isMovieExists) {
+      toast.error("Movie already exists in cart");
+      return;
+    }
+
+    setCartData([...cartData, movie]);
+    toast.success("Movie added to cart successfully");
+  };
+
+  const handleMovieSelect = (movie) => {
+    setSelectedMovie(movie);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedMovie(null);
+    setIsModalOpen(false);
   };
   return (
     <>
       {isModalOpen && (
         <MovieDetailsModal
-          movie={movie}
-          onClose={() => setIsModalOpen(false)}
+          movie={selectedMovie}
+          onClose={handleCloseModal}
           onAddtoCart={addToCart}
         />
       )}
@@ -25,7 +51,7 @@ export default function MovieCard({ movie }) {
         key={movie.id}
         className="p-4 border border-black/10 shadow-sm dark:border-white/10 rounded-xl"
       >
-        <a href="#" onClick={() => setIsModalOpen(true)}>
+        <a href="#" onClick={() => handleMovieSelect(movie)}>
           <img
             className="w-full object-cover"
             src={getMovieUrl(movie.cover)}
@@ -37,7 +63,10 @@ export default function MovieCard({ movie }) {
             <div className="flex items-center space-x-1 mb-5">
               <Rating value={movie.rating} />
             </div>
-            <button className="bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm">
+            <button
+              onClick={(e) => addToCart(e, movie)}
+              className="bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
+            >
               <img src={tag} alt="" />
               <span>${movie.price} | Add to Cart</span>
             </button>
