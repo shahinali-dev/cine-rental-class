@@ -13,7 +13,7 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(true);
   // eikhane amra dark mode , set dark mode state niyechi jeitar value ar opor amra html file a jei data-attibute niyechi seitar value dark or light korbo, amader goal ta ki clear? accha akhn ki bujhte parlen kaj ta kivabe hocche? muloto dark mode css file a dark variant & index.html file a date-theme attribute ar value set korlei hoye jacche,kintu oita hocche manually , kintu amader k to conditionally eita toggle korte hobe user jodi theme toggle btn a click kore tobe amader k seita sei onujayi set korte hobe html tag ar attibute a, ei kaj ta amra navbar a korlam
 
-  // akhn bisoi hocche useReducer ar implementation ta apni valo vabe dekhe niyen ami kebol code ta update kore dilam & push diye dicchi apni kebol pull nilei sob code amr machine a peye jaben, pull neya janen to?
+  // akhn bisoi hocche useReducer ar implementation ta apni valo vabe dekhe niyen ami kebol code ta update kore dilam & push diye dicchi apni kebol pull nilei sob code amr machine a peye jaben, pull neya janen to? ei repository clne kora ache? open korben then just eikhane branch ar pashe jei circle ta ache oikhane click korlei pull hoye jabe othoba git pull origin main
   return (
     <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
       <MovieContext.Provider value={{ state, dispatch }}>
