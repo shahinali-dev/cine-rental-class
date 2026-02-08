@@ -2,10 +2,12 @@ import { useContext } from "react";
 import { MovieContext } from "../../context";
 import CartItems from "./CartItems";
 export default function Cart({ onClose }) {
-  const { cartData } = useContext(MovieContext);
+  const { cartData, setCartData } = useContext(MovieContext);
 
+  // cholun amra dark mode light mode implementation ta dekhi ektu
   const handleRemoveFromCart = (id) => {
-    console.log("remove from cart", id);
+    const updatedCart = cartData.filter((movie) => movie.id !== id);
+    setCartData(updatedCart);
   };
 
   return (
