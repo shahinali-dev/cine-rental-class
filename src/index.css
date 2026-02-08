@@ -1,4 +1,6 @@
 @import "tailwindcss";
+
+/* eita amder dark mode ar 1st step */
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 /* ekhane amra ekta font & ekta custom color add korechi */

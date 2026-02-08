@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { toast } from "react-hot-toast";
 import tag from "../../assets/tag.svg";
 import { MovieContext } from "../../context";
 import { getMovieUrl } from "../../utils/movie-utils";
@@ -13,20 +12,19 @@ export default function MovieCard({ movie }) {
   //scrn dekha jai?? ok then amra prothome event propagation issue ta fix kore asi
   // accha akhn dekhen add to cart a add korle kintu r modal open hocchena tai na? hello r u available? ami kintu click kortechi but kono modal ki open hocchilo? ok but amader ekta bug create hoyeche code a, mone ache amra seelctedMovie nam a ekta state nite giyechilam? actually eikhane ki hocche movie card a single movie aslew seita to map hocche bar bar tai na? so amader k eikhane selectedMovie state ta nite hobe
 
-  const { cartData, setCartData } = useContext(MovieContext);
+  const { dispatch } = useContext(MovieContext);
 
-  console.log("cartData", cartData);
   //toast gulo ki dekha jai? eita configuration bujhte perechen? ok akhn amra ei cart data k cart icon a click korle jeno dekha jai seita ensure korbo
+
+  // reducer a niye jawyar jei condion chilo seikhane bola chilo handler gulor logic k reducer a niye jawya
   const addToCart = (e, movie) => {
     e.stopPropagation();
-    const isMovieExists = cartData.find((item) => item.id === movie.id);
-    if (isMovieExists) {
-      toast.error("Movie already exists in cart");
-      return;
-    }
-
-    setCartData([...cartData, movie]);
-    toast.success("Movie added to cart successfully");
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: {
+        ...movie,
+      },
+    });
   };
 
   const handleMovieSelect = (movie) => {

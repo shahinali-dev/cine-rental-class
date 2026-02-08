@@ -2,12 +2,16 @@ import { useContext } from "react";
 import { MovieContext } from "../../context";
 import CartItems from "./CartItems";
 export default function Cart({ onClose }) {
-  const { cartData, setCartData } = useContext(MovieContext);
+  const { state, dispatch } = useContext(MovieContext);
+
+  // aader cartData akhn state nam a pabo amra
 
   // cholun amra dark mode light mode implementation ta dekhi ektu
   const handleRemoveFromCart = (id) => {
-    const updatedCart = cartData.filter((movie) => movie.id !== id);
-    setCartData(updatedCart);
+    dispatch({
+      type: "REMOVE_FROM_CART",
+      payload: id,
+    });
   };
 
   return (
@@ -20,8 +24,8 @@ export default function Cart({ onClose }) {
           </h2>
           <div className="space-y-8 lg:space-y-12 max-h-112.5 overflow-auto mb-10 lg:mb-14">
             {/* eita cart items  */}
-            {cartData.length > 0 ? (
-              cartData.map((movie) => (
+            {state.cartData.length > 0 ? (
+              state.cartData.map((movie) => (
                 <CartItems
                   key={movie.id}
                   movie={movie}
